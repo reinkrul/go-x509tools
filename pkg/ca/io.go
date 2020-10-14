@@ -56,10 +56,3 @@ func loadCertificateAndKey() (*x509.Certificate, crypto.PrivateKey, error) {
 	return certificate, privateKey.(crypto.PrivateKey), nil
 }
 
-func fileExists(fileName string) bool {
-	info, err := os.Stat(fileName)
-	if os.IsNotExist(err) {
-		return false
-	}
-	return !info.IsDir()
-}

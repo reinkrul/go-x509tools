@@ -22,7 +22,7 @@ type CertificateAuthority interface {
 	IssueIntermediateCACertificate(subject pkix.Name, key crypto.PublicKey, options... CertificateOption) (*x509.Certificate, error)
 }
 
-func NewCertificateAuthority(name pkix.Name) (CertificateAuthority, error) {
+func NewCertificateAuthority(name pkix.Name, privatekeyFile string, certificateFile string) (CertificateAuthority, error) {
 	certAuth := &certificateAuthority{}
 	if err := certAuth.initialize(name); err != nil {
 		return nil, err
@@ -126,4 +126,12 @@ func serialNumber() *big.Int {
 	}
 	return serialNumber
 
+}
+
+func fileExists(fileName string) bool {
+	info, err := os.Stat(fileName)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return !info.IsDir()
 }
